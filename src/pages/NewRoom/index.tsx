@@ -1,20 +1,17 @@
 import './styles.css'
 
+import { Link, useNavigate } from 'react-router-dom'
+import {useState, FormEvent} from 'react'
+import useAuth from '../../hooks/useAuth'
+
 import illustrationImg from '../../assets/images/illustration.svg'
 import logoImg from '../../assets/images/logo.svg'
 
-
-
 import Button from '../../components/Button'
-import { Link, useNavigate } from 'react-router-dom'
-
-import {FormEvent} from 'react'
-
-import {useState} from 'react'
 
 import {database} from '../../services/firebase'
 
-import useAuth from '../../hooks/useAuth'
+
 
 
 
@@ -25,7 +22,6 @@ function NewRoom(){
 
  async function handleCreateRoom(event: FormEvent) {
    event.preventDefault()
-   
 
    if(newRoom.trim() === ''){//retira os espaços tanto da direita quanto da esquerda
     return

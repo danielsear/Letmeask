@@ -6,7 +6,7 @@ import logoImg from '../../assets/images/logo.svg'
 
 
 import Button from '../../components/Button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {FormEvent} from 'react'
 
@@ -21,9 +21,11 @@ import useAuth from '../../hooks/useAuth'
 function NewRoom(){
   const {user} = useAuth()
   const [newRoom,setNewRoom] = useState('') 
+  const navigate =useNavigate()
 
  async function handleCreateRoom(event: FormEvent) {
    event.preventDefault()
+   
 
    if(newRoom.trim() === ''){//retira os espaços tanto da direita quanto da esquerda
     return
@@ -35,7 +37,7 @@ function NewRoom(){
      title: newRoom,
      authorID: user?.id
    })
-  
+   navigate(`/rooms/${firebaseRoom.key}`)
  }
 
   return(

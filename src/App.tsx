@@ -7,7 +7,7 @@ import AuthContextProvider from './Context/AuthContext';
 
 import Home from './pages/Home';
 import NewRoom from './pages/NewRoom';
-import Room from './pages/Room/Romm';
+import Room from './pages/Room';
 
 
 function App() {

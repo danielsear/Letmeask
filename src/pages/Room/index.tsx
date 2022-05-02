@@ -3,6 +3,7 @@ import './styles.css'
 import logoImg from '../../assets/images/logo.svg'
 
 import Button from '../../components/Button'
+import RoomCode from '../../components/RoomCode'
 
 function Room(){
   return (
@@ -10,7 +11,7 @@ function Room(){
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
-          <div>codigo da sala</div>
+          <RoomCode/>
         </div>
       </header>
       <main >
@@ -21,7 +22,7 @@ function Room(){
         <form >
           <textarea placeholder='O que você quer perguntar'/>
           <div className="form_footer">
-            <span>Para enviar uma pergunta,<a href='#'>faça seu login</a></span>
+            <span>Para enviar uma pergunta,  <a href='#'>  faça seu login</a></span>
             <Button type='submit'>Enviar pergunta</Button>
           </div>
         </form>

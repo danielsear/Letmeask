@@ -76,3 +76,19 @@ form textarea{
   cursor: pointer;
 }
 
+.user_info{
+  display: flex;
+  align-items: center; 
+}
+.user_info img{
+  width: 2rem;
+  height: 2rem;
+
+  border-radius: 50%;
+}
+.user_info span{
+  margin-left: .5rem;
+  color: #29292e;
+  font-weight: 500;
+  font-size: .875rem;
+}

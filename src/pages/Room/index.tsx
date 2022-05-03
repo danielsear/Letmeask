@@ -2,16 +2,29 @@ import './styles.css'
 
 import logoImg from '../../assets/images/logo.svg'
 
+import { useParams } from 'react-router-dom'
+
 import Button from '../../components/Button'
 import RoomCode from '../../components/RoomCode'
 
+
+type RoomParams = {
+  id: string
+}
+
+
 function Room(){
+  const params = useParams<RoomParams>()
+
+  const roomId = params.id
+  
+
   return (
     <div id="page_room">
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
-          <RoomCode/>
+          <RoomCode code={roomId} />
         </div>
       </header>
       <main >

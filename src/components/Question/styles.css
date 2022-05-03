@@ -1,0 +1,38 @@
+ 
+ .question{
+   background: #fefefe;
+   border-radius: .5rem;
+   box-shadow: 0 .125rem .3rem  rgba(0, 0, 0, .54);
+   padding: 1.5rem;
+ }
+
+ .question + .question {
+   margin-top: .5rem;
+ }
+
+ .question p{
+   color: #29292e;
+ }
+
+ footer{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   margin-top: 1.5rem;
+ }
+ .user_info{
+  display: flex;
+  align-items: center; 
+}
+.user_info img{
+  width: 2rem;
+  height: 2rem;
+
+  border-radius: 50%;
+}
+.user_info span{
+  margin-left: .5rem;
+  color: #737380;
+  font-size: .875rem;
+}

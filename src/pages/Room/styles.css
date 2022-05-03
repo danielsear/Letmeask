@@ -48,7 +48,7 @@ form textarea{
   padding: 1rem;
   border-radius: .875rem;
   background: #fefefe;
-  box-shadow: 0 .125rem .75rem rgba(0, 0, 0, .84);
+  box-shadow: 0 .125rem .3rem rgba(0, 0, 0, .64);
   resize: vertical;
   min-height: 8.625rem;
 }
@@ -91,4 +91,8 @@ form textarea{
   color: #29292e;
   font-weight: 500;
   font-size: .875rem;
+}
+
+.question_list{
+  margin: 1rem 0;
 }

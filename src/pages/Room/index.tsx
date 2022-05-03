@@ -8,8 +8,10 @@ import useAuth from '../../hooks/useAuth'
 
 import Button from '../../components/Button'
 import RoomCode from '../../components/RoomCode'
+import Question from '../../components/Question'
 
 import { database } from '../../services/firebase'
+
 
 
 type firebaseQuestions =Record<string, {
@@ -22,7 +24,7 @@ type firebaseQuestions =Record<string, {
   isAnswered: false
 }>
 
-type Question ={
+type QuestionType ={
   id: string,
   author:{ 
     name:string,
@@ -40,7 +42,7 @@ type RoomParams = {
 
 function Room(){
   const [newQuestion, setNewQuestion] = useState('')
-  const [questions, setQuestions]= useState<Question[]>([])
+  const [questions, setQuestions]= useState<QuestionType[]>([])
   const [title, setTitle] = useState('')
 
   const {user} = useAuth()
@@ -127,7 +129,17 @@ function Room(){
             <Button type='submit' disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
-        {JSON.stringify(questions)}
+        <div className="question_list">
+        {questions.map(question => {
+          return (
+            <Question 
+            key={question.id} 
+            content={question.content} 
+            author={question.author} 
+            />)}
+          )
+        }
+        </div>
       </main>
     </div>
   )

@@ -21,6 +21,30 @@
 
    margin-top: 1.5rem;
  }
+
+ footer button{
+   border: 0;
+   background: transparent;
+   cursor: pointer;
+
+   transition: .2s;
+ }
+ footer button:hover{
+   filter: brightness(.8);
+ }
+  .like_button{
+   display: flex;
+   align-items: flex-end;
+   color: #737380;
+   gap: .5rem;
+ }
+ .like_button .liked{
+   color: #835afd;
+ }
+ .like_button .liked svg path{
+  stroke: #835afd;
+ }
+
  .user_info{
   display: flex;
   align-items: center; 

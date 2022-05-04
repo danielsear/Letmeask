@@ -38,10 +38,10 @@
    color: #737380;
    gap: .5rem;
  }
- .like_button .liked{
+.liked{
    color: #835afd;
  }
- .like_button .liked svg path{
+.liked svg path{
   stroke: #835afd;
  }
 

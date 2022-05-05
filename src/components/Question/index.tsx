@@ -1,5 +1,7 @@
 import './styles.css'
 
+import cx from 'classnames'
+
 import { ReactNode} from 'react'
 
 type QuestionProps ={
@@ -8,20 +10,33 @@ type QuestionProps ={
     name: string,
     avatar: string
   },
-  children?:ReactNode
+  children?:ReactNode,
+  isAnswered?: boolean,
+  isHighLighted?: boolean
 }
 
-function Question(props: QuestionProps){
+function Question({
+  content,
+  author,
+  children,
+  isAnswered = false,
+  isHighLighted = false
+}: QuestionProps){
   return (
-    <div className="question">
-      <p>{props.content}</p>
+    <div 
+    className={cx('question',
+      {answered: isAnswered},
+      {highLighted :isHighLighted && !isAnswered}
+    )}
+    >
+      <p>{content}</p>
       <footer>
         <div className="user_info">
-          <img src={props.author.avatar} alt={props.author.name} />
-          <span>{props.author.name}</span>
+          <img src={author.avatar} alt={author.name} />
+          <span>{author.name}</span>
         </div>
-        <div>
-          {props.children}
+        <div className='div_buttons'>
+          {children}
         </div>
       </footer>
     </div>

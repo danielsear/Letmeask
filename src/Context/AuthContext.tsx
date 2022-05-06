@@ -10,20 +10,26 @@ type User= {
   avatar:string
 }
 
+type ThemaDarkType = boolean
+
+
 type AuthContextType={
   user: User | undefined,
-  signInWithGoogle: ()=> Promise<void>
+  signInWithGoogle: ()=> Promise<void>,
+  themeDark :ThemaDarkType
+ 
 }
 
 type AuthContextProviderProps={
   children: ReactNode
 }
 
+
 export const AuthContext = createContext({} as AuthContextType)
 
 
 function AuthContextProvider(props: AuthContextProviderProps){
-
+  
   const [user, setUser]= useState<User>() 
   
   useEffect(()=>{
@@ -37,7 +43,7 @@ function AuthContextProvider(props: AuthContextProviderProps){
         setUser({
           id: uid,
           name: displayName,
-          avatar: photoURL
+          avatar: photoURL,
         })
       }
     })
@@ -70,7 +76,7 @@ function AuthContextProvider(props: AuthContextProviderProps){
    // })
   
   return (
-    <AuthContext.Provider value={{user,signInWithGoogle }}>
+    <AuthContext.Provider value={{user,signInWithGoogle,themeDark: false}}>
      {props.children}
     </AuthContext.Provider>
   )

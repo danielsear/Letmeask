@@ -20,6 +20,8 @@
     padding: 7.5rem 5rem;
   }
 
+ 
+
   #page_auth aside img{
     max-width: 20rem;
   }
@@ -125,4 +127,29 @@ form input,button{
   margin-left: 1rem;
 }
 
+.button_tema{
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 2rem;
+  border: .0625rem solid #201b2c;
+  background: #201b2c;
 
+  color: #fff;
+}
+
+
+#page_auth .dark{
+ 
+    
+  background: #201b2c;
+  color: #fff;
+
+  flex: 8;
+
+  padding:  0 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

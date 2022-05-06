@@ -103,3 +103,16 @@ form textarea{
 .question_list{
   margin: 1rem 0;
 }
+
+
+.dark main h1 {
+  color: #fff;
+}
+.dark main form span{
+  color: #fff;
+}
+.dark header .content img{
+  background: white;
+    padding: 0.5rem;
+    border-radius: 30%;
+}

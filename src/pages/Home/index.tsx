@@ -15,8 +15,24 @@ import { database } from '../../services/firebase'
 
 function Home(){
   const navigate = useNavigate()
-  const {user,signInWithGoogle} = useAuth()
+  const {user,signInWithGoogle, themeDark} = useAuth()
   const [roomCode,setRoomCode] = useState('') 
+
+  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
+  const [nameTheme,setNameTheme] = useState('Tema Dark')
+
+  async function handleThemeDark(){
+    
+    if(!themeDarkVar){
+      setThemeDarkVar(true)
+      setNameTheme('Tema padrão')
+    }else{
+      setThemeDarkVar(false)
+      setNameTheme('Tema Dark')
+    }
+  }
+
+ 
 
   async function handleChangeRoom (){
     if(!user){
@@ -50,15 +66,14 @@ function Home(){
 
   return(
     <div id='page_auth'>
-      <aside>
+      <aside >
         <img src={illustrationImg} alt="Ilustração de perguntas e respostas" />
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas de sua audiência em tempo-real</p>
       </aside>
-      <main>
-     
+      <main className={` ${themeDarkVar ? 'dark' : ''}`} >
+      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
         <div className='main_content'>
-          
            <img src={logoImg} alt="logo do app" />
           <button className='create_room' onClick={handleChangeRoom }>  
             <img   src={googleIcon} alt="logo Google" />

@@ -7,8 +7,9 @@ import answerImg from '../../assets/images/answer.svg'
 
 
 import { useNavigate, useParams } from 'react-router-dom'
-//import useAuth from '../../hooks/useAuth'
 import useRoom from '../../hooks/useRoom'
+import useAuth from '../../hooks/useAuth'
+import { useState } from 'react'
 
 import Button from '../../components/Button'
 import RoomCode from '../../components/RoomCode'
@@ -17,19 +18,34 @@ import Question from '../../components/Question'
 import { database } from '../../services/firebase'
 
 
+
 type RoomParams = {
   id: string
 }
 
 
 function AdminRoom(){
- // const {user} = useAuth()
   const navegate = useNavigate()
   const params = useParams<RoomParams>()
+  const {themeDark} = useAuth()
 
   const roomId = params.id
 
   const{questions, title} = useRoom(roomId)
+
+  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
+  const [nameTheme,setNameTheme] = useState('Tema Dark')
+
+   async function handleThemeDark(){
+    
+    if(!themeDarkVar){
+      setThemeDarkVar(true)
+      setNameTheme('Tema padrão')
+    }else{
+      setThemeDarkVar(false)
+      setNameTheme('Tema Dark')
+    }
+  }
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
@@ -64,7 +80,7 @@ function AdminRoom(){
  
 
   return (
-    <div id="page_room">
+    <div id="page_room" className={` ${themeDarkVar ? 'dark' : ''}`}>
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
@@ -75,6 +91,7 @@ function AdminRoom(){
         </div>
       </header>
       <main >
+      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
         <div className="room_title">
           <h1>Sala {title}</h1>
           {questions.length > 0 && <span>{questions.length} de perguntas</span>}

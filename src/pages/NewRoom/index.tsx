@@ -16,9 +16,24 @@ import {database} from '../../services/firebase'
 
 
 function NewRoom(){
-  const {user} = useAuth()
+  const {user,themeDark} = useAuth()
   const [newRoom,setNewRoom] = useState('') 
   const navigate =useNavigate()
+
+  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
+  const [nameTheme,setNameTheme] = useState('Tema Dark')
+
+   async function handleThemeDark(){
+    
+    if(!themeDarkVar){
+      setThemeDarkVar(true)
+      setNameTheme('Tema padrão')
+    }else{
+      setThemeDarkVar(false)
+      setNameTheme('Tema Dark')
+    }
+  }
+
 
  async function handleCreateRoom(event: FormEvent) {
    event.preventDefault()
@@ -31,7 +46,7 @@ function NewRoom(){
 
    const firebaseRoom = await roomRef.push({
      title: newRoom,
-     authorID: user?.id
+     authorID: user?.id,
    })
    navigate(`/rooms/${firebaseRoom.key}`)
  }
@@ -43,7 +58,8 @@ function NewRoom(){
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas de sua audiência em tempo-real</p>
       </aside>
-      <main>
+      <main  className={` ${themeDarkVar ? 'dark' : ''}`}>
+      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
         <div className='main_content'>
            <img src={logoImg} alt="logo do app" />
           <h2>Criar uma nova sala</h2>

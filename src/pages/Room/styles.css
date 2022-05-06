@@ -1,4 +1,5 @@
 
+
 #page_room header{
   padding: 1.5rem;
   border-bottom: .0625rem solid #e2e2e2;
@@ -95,4 +96,21 @@ form textarea{
 
 .question_list{
   margin: 1rem 0;
+}
+
+
+.dark{
+  background: #201b2c;
+  padding: 2.7rem;
+}
+.dark main h1 {
+  color: #fff;
+}
+.dark main form span{
+  color: #fff;
+}
+.dark header .content img{
+  background: white;
+    padding: 0.5rem;
+    border-radius: 30%;
 }

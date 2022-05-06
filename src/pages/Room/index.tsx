@@ -23,12 +23,26 @@ type RoomParams = {
 function Room(){
   const [newQuestion, setNewQuestion] = useState('')
  
-  const {user} = useAuth()
+  const {user,themeDark} = useAuth()
   const params = useParams<RoomParams>()
 
   const roomId = params.id
 
   const{questions, title} = useRoom(roomId)
+
+  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
+  const [nameTheme,setNameTheme] = useState('Tema Dark')
+
+   async function handleThemeDark(){
+    
+    if(!themeDarkVar){
+      setThemeDarkVar(true)
+      setNameTheme('Tema padrão')
+    }else{
+      setThemeDarkVar(false)
+      setNameTheme('Tema Dark')
+    }
+  }
 
   async function handleSendQuestion(event : FormEvent) {
     event.preventDefault()
@@ -67,7 +81,7 @@ function Room(){
   }
 
   return (
-    <div id="page_room">
+    <div id="page_room" className={` ${themeDarkVar ? 'dark' : ''}`}>
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
@@ -75,6 +89,7 @@ function Room(){
         </div>
       </header>
       <main >
+      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
         <div className="room_title">
           <h1>Sala {title}</h1>
           {questions.length > 0 && <span>{questions.length} de perguntas</span>}

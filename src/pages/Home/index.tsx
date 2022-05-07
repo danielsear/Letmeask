@@ -3,6 +3,7 @@ import './styles.css'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { FormEvent, useState } from 'react'
+import useThemeControllers from '../../hooks/useThemeControllers'
 
 import illustrationImg from '../../assets/images/illustration.svg'
 import logoImg from '../../assets/images/logo.svg'
@@ -12,27 +13,20 @@ import Button from '../../components/Button'
 
 import { database } from '../../services/firebase'
 
+  
+
 
 function Home(){
   const navigate = useNavigate()
-  const {user,signInWithGoogle, themeDark} = useAuth()
+  const {user,signInWithGoogle} = useAuth()
   const [roomCode,setRoomCode] = useState('') 
+  const controllerStateThemePage= useThemeControllers()
+  
+  
+   function handleThemeDark(){
 
-  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
-  const [nameTheme,setNameTheme] = useState('Tema Dark')
-
-  async function handleThemeDark(){
-    
-    if(!themeDarkVar){
-      setThemeDarkVar(true)
-      setNameTheme('Tema padrão')
-    }else{
-      setThemeDarkVar(false)
-      setNameTheme('Tema Dark')
-    }
   }
 
- 
 
   async function handleChangeRoom (){
     if(!user){
@@ -71,8 +65,11 @@ function Home(){
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas de sua audiência em tempo-real</p>
       </aside>
-      <main className={` ${themeDarkVar ? 'dark' : ''}`} >
-      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
+      <main className={` ${controllerStateThemePage?.themePage ? 'dark' : ''}`} >
+      <button 
+      className='button_tema' 
+      onClick={handleThemeDark}>{controllerStateThemePage?.nameButtonChangeThemePage}
+      </button>
         <div className='main_content'>
            <img src={logoImg} alt="logo do app" />
           <button className='create_room' onClick={handleChangeRoom }>  

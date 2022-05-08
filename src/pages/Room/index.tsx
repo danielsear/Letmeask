@@ -3,7 +3,7 @@ import './styles.css'
 import logoImg from '../../assets/images/logo.svg'
 
 import { useParams } from 'react-router-dom'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import useRoom from '../../hooks/useRoom'
 
@@ -14,6 +14,7 @@ import Question from '../../components/Question'
 import { database } from '../../services/firebase'
 
 
+import {ThemePage} from '../Home'
 
 type RoomParams = {
   id: string
@@ -23,26 +24,65 @@ type RoomParams = {
 function Room(){
   const [newQuestion, setNewQuestion] = useState('')
  
-  const {user,themeDark} = useAuth()
+  const {user} = useAuth()
   const params = useParams<RoomParams>()
 
   const roomId = params.id
 
   const{questions, title} = useRoom(roomId)
 
-  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
-  const [nameTheme,setNameTheme] = useState('Tema Dark')
+  const [stateThemePage, setStateThemePage] = useState<ThemePage>()
 
-   async function handleThemeDark(){
-    
-    if(!themeDarkVar){
-      setThemeDarkVar(true)
-      setNameTheme('Tema padrão')
-    }else{
-      setThemeDarkVar(false)
-      setNameTheme('Tema Dark')
+  
+
+  useEffect(() => {
+    //verificando o tema inicial e retornando o id
+    if(!stateThemePage ){
+      database
+    .ref('rooms')
+    .child('pageTheme')
+    .once('value', theme => {
+      const themeValue = theme.val()
+      
+
+      if (themeValue === false) {
+
+        setStateThemePage({
+            themePage: false,
+            nameButtonChangeThemePage: 'Tema Dark'
+          })
+        } else {
+
+          setStateThemePage({
+            themePage: true,   
+            nameButtonChangeThemePage: 'Tema Padrão'
+          })
+        }
+    })
     }
-  }
+    
+
+  }, [stateThemePage])
+
+   function handleThemePage(){  
+     if(stateThemePage?.themePage === false){
+      database.ref('rooms').child(`pageTheme`).set(true)
+      
+      setStateThemePage({
+        themePage: true,
+        nameButtonChangeThemePage: 'Thema Dark'
+      })
+     }else{ 
+      database.ref('rooms').child(`pageTheme`).set(false)
+      
+      setStateThemePage({
+        themePage: false,
+        nameButtonChangeThemePage: 'Thema Padrão'
+      })
+     }
+        
+    }
+
 
   async function handleSendQuestion(event : FormEvent) {
     event.preventDefault()
@@ -81,7 +121,7 @@ function Room(){
   }
 
   return (
-    <div id="page_room" className={` ${themeDarkVar ? 'dark' : ''}`}>
+    <div id="page_room" className={` ${stateThemePage?.themePage ? 'dark' : ''}`}>
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
@@ -89,7 +129,10 @@ function Room(){
         </div>
       </header>
       <main >
-      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
+      <button 
+      className='button_tema' 
+      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
+      </button>
         <div className="room_title">
           <h1>Sala {title}</h1>
           {questions.length > 0 && <span>{questions.length} de perguntas</span>}

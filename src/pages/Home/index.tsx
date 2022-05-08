@@ -2,8 +2,7 @@ import './styles.css'
 
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
-import { FormEvent, useState } from 'react'
-import useThemeControllers from '../../hooks/useThemeControllers'
+import { FormEvent, useEffect, useState } from 'react'
 
 import illustrationImg from '../../assets/images/illustration.svg'
 import logoImg from '../../assets/images/logo.svg'
@@ -13,19 +12,69 @@ import Button from '../../components/Button'
 
 import { database } from '../../services/firebase'
 
-  
+
+export type ThemePage = {
+  themePage: boolean
+  nameButtonChangeThemePage: string
+}
 
 
 function Home(){
   const navigate = useNavigate()
   const {user,signInWithGoogle} = useAuth()
   const [roomCode,setRoomCode] = useState('') 
-  const controllerStateThemePage= useThemeControllers()
+  const [stateThemePage, setStateThemePage] = useState<ThemePage>()
   
   
-   function handleThemeDark(){
 
-  }
+  useEffect(() => {
+    //verificando o tema inicial e retornando o id
+    if(!stateThemePage ){
+      database
+    .ref('rooms')
+    .child('pageTheme')
+    .once('value', theme => {
+      const themeValue = theme.val()
+      
+
+      if (themeValue === false) {
+
+        setStateThemePage({
+            themePage: false,
+            nameButtonChangeThemePage: 'Tema Dark'
+          })
+        } else {
+
+          setStateThemePage({
+            themePage: true,   
+            nameButtonChangeThemePage: 'Tema Padrão'
+          })
+        }
+    })
+    }
+    
+
+  }, [stateThemePage])
+
+   function handleThemePage(){  
+     if(stateThemePage?.themePage === false){
+      database.ref('rooms').child(`pageTheme`).set(true)
+      
+      setStateThemePage({
+        themePage: true,
+        nameButtonChangeThemePage: 'Thema Dark'
+      })
+     }else{ 
+      database.ref('rooms').child(`pageTheme`).set(false)
+      
+      setStateThemePage({
+        themePage: false,
+        nameButtonChangeThemePage: 'Thema Padrão'
+      })
+     }
+        
+    }
+
 
 
   async function handleChangeRoom (){
@@ -65,10 +114,10 @@ function Home(){
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas de sua audiência em tempo-real</p>
       </aside>
-      <main className={` ${controllerStateThemePage?.themePage ? 'dark' : ''}`} >
+      <main className={` ${stateThemePage?.themePage ? 'dark' : ''}`} >
       <button 
       className='button_tema' 
-      onClick={handleThemeDark}>{controllerStateThemePage?.nameButtonChangeThemePage}
+      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
       </button>
         <div className='main_content'>
            <img src={logoImg} alt="logo do app" />

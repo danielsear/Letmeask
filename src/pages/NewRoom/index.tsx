@@ -1,7 +1,7 @@
 import './styles.css'
 
 import { Link, useNavigate } from 'react-router-dom'
-import {useState, FormEvent} from 'react'
+import {useState, FormEvent, useEffect} from 'react'
 import useAuth from '../../hooks/useAuth'
 
 import illustrationImg from '../../assets/images/illustration.svg'
@@ -12,27 +12,67 @@ import Button from '../../components/Button'
 import {database} from '../../services/firebase'
 
 
-
+import { ThemePage } from '../Home'
 
 
 function NewRoom(){
-  const {user,themeDark} = useAuth()
+  const {user} = useAuth()
   const [newRoom,setNewRoom] = useState('') 
   const navigate =useNavigate()
 
-  const [themeDarkVar, setThemeDarkVar] = useState(themeDark)
-  const [nameTheme,setNameTheme] = useState('Tema Dark')
+  const [stateThemePage, setStateThemePage] = useState<ThemePage>()
+ 
+  
 
-   async function handleThemeDark(){
-    
-    if(!themeDarkVar){
-      setThemeDarkVar(true)
-      setNameTheme('Tema padrão')
-    }else{
-      setThemeDarkVar(false)
-      setNameTheme('Tema Dark')
+  useEffect(() => {
+    //verificando o tema inicial e retornando o id
+    if(!stateThemePage ){
+      database
+    .ref('rooms')
+    .child('pageTheme')
+    .once('value', theme => {
+      const themeValue = theme.val()
+      
+
+      if (themeValue === false) {
+
+        setStateThemePage({
+            themePage: false,
+            nameButtonChangeThemePage: 'Tema Dark'
+          })
+        } else {
+
+          setStateThemePage({
+            themePage: true,   
+            nameButtonChangeThemePage: 'Tema Padrão'
+          })
+        }
+    })
     }
-  }
+    
+
+  }, [stateThemePage])
+
+   function handleThemePage(){  
+     if(stateThemePage?.themePage === false){
+      database.ref('rooms').child(`pageTheme`).set(true)
+      
+      setStateThemePage({
+        themePage: true,
+        nameButtonChangeThemePage: 'Thema Dark'
+      })
+     }else{ 
+      database.ref('rooms').child(`pageTheme`).set(false)
+      
+      setStateThemePage({
+        themePage: false,
+        nameButtonChangeThemePage: 'Thema Padrão'
+      })
+     }
+        
+    }
+
+
 
 
  async function handleCreateRoom(event: FormEvent) {
@@ -58,8 +98,11 @@ function NewRoom(){
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas de sua audiência em tempo-real</p>
       </aside>
-      <main  className={` ${themeDarkVar ? 'dark' : ''}`}>
-      <button className='button_tema' onClick={handleThemeDark}>{nameTheme}</button>
+      <main  className={` ${stateThemePage?.themePage ? 'dark' : ''}`}>
+      <button 
+      className='button_tema' 
+      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
+      </button>
         <div className='main_content'>
            <img src={logoImg} alt="logo do app" />
           <h2>Criar uma nova sala</h2>

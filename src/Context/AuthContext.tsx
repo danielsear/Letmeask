@@ -10,13 +10,12 @@ type User= {
   avatar:string
 }
 
-type ThemaDarkType = boolean
+
 
 
 type AuthContextType={
   user: User | undefined,
   signInWithGoogle: ()=> Promise<void>,
-  themeDark :ThemaDarkType
  
 }
 
@@ -76,7 +75,7 @@ function AuthContextProvider(props: AuthContextProviderProps){
    // })
   
   return (
-    <AuthContext.Provider value={{user,signInWithGoogle,themeDark: false}}>
+    <AuthContext.Provider value={{user,signInWithGoogle}}>
      {props.children}
     </AuthContext.Provider>
   )

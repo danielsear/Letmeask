@@ -117,9 +117,13 @@ function AdminRoom(){
   
  }
  
-
+ 
   return (
-    <div id="page_room" className={` ${stateThemePage?.themePage ? 'dark' : ''}`}>
+    <div id="page_room" className={` ${stateThemePage?.themePage ? 'dark_AdminRoom' : ''}`}>
+      <button 
+      className='button_tema' 
+      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
+      </button>
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
@@ -130,10 +134,6 @@ function AdminRoom(){
         </div>
       </header>
       <main >
-      <button 
-      className='button_tema' 
-      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
-      </button>
         <div className="room_title">
           <h1>Sala {title}</h1>
           {questions.length > 0 && <span>{questions.length} de perguntas</span>}

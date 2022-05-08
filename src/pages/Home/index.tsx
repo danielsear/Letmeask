@@ -109,16 +109,16 @@ function Home(){
 
   return(
     <div id='page_auth'>
+      <button 
+      className='button_tema' 
+      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
+      </button>
       <aside >
         <img src={illustrationImg} alt="Ilustração de perguntas e respostas" />
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas de sua audiência em tempo-real</p>
       </aside>
       <main className={` ${stateThemePage?.themePage ? 'dark' : ''}`} >
-      <button 
-      className='button_tema' 
-      onClick={handleThemePage}>{stateThemePage?.nameButtonChangeThemePage}
-      </button>
         <div className='main_content'>
            <img src={logoImg} alt="logo do app" />
           <button className='create_room' onClick={handleChangeRoom }>  

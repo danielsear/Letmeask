@@ -145,15 +145,17 @@ form input,button{
 .button_tema{
  position: absolute;
  top: 0;
- right: 0;
- 
-  border-radius: 2rem;
+
+ width: 100%;
+  
   border: .0625rem solid #201b2c;
   background: #201b2c;
 
   color: #fff;
 }
-
+.button_tema:hover{
+  color: yellow;
+}
 
 #page_auth .dark{
  

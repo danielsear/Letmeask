@@ -99,18 +99,19 @@ form textarea{
 }
 
 
-.dark{
+.darkRoom{
   background: #201b2c;
-  padding: 2.7rem;
+  height: 100vh;
+  overflow-y: auto;
 }
-.dark main h1 {
+.darkRoom main div h1 {
   color: #fff;
 }
-.dark main form span{
+.darkRoom main form span{
   color: #fff;
 }
-.dark header .content img{
-  background: white;
+.darkRoom header .content img{
+  
     padding: 0.5rem;
     border-radius: 30%;
 }

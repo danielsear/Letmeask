@@ -104,15 +104,20 @@ form textarea{
   margin: 1rem 0;
 }
 
+.dark_AdminRoom{
+  background: #201b2c;
+  height: 100vh;
+  overflow-y: auto;
+}
 
-.dark main h1 {
+.dark_AdminRoom main h1 {
   color: #fff;
 }
-.dark main form span{
+.dark_AdminRoom main form span{
   color: #fff;
 }
-.dark header .content img{
-  background: white;
+.dark_AdminRoom header .content img{
+  
     padding: 0.5rem;
     border-radius: 30%;
 }

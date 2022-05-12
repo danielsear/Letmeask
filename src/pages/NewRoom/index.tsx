@@ -12,7 +12,8 @@ import Button from '../../components/Button'
 import {database} from '../../services/firebase'
 
 
-import { ThemePage } from '../Home'
+import {ThemePage} from '../Home'
+
 
 
 function NewRoom(){
@@ -20,38 +21,31 @@ function NewRoom(){
   const [newRoom,setNewRoom] = useState('') 
   const navigate =useNavigate()
 
+
+  
   const [stateThemePage, setStateThemePage] = useState<ThemePage>()
+
+ 
  
   
-
-  useEffect(() => {
-    //verificando o tema inicial e retornando o id
-    if(!stateThemePage ){
-      database
-    .ref('rooms')
-    .child('pageTheme')
-    .once('value', theme => {
-      const themeValue = theme.val()
-      
-
-      if (themeValue === false) {
-
-        setStateThemePage({
-            themePage: false,
-            nameButtonChangeThemePage: 'Tema Dark'
-          })
-        } else {
-
-          setStateThemePage({
-            themePage: true,   
-            nameButtonChangeThemePage: 'Tema Padrão'
-          })
-        }
-    })
-    }
+  useEffect(()=>{
+    async function theme() {
+      await database
+      .ref('rooms')
+      .child('pageTheme')
+      .once('value', theme => {
+        const themeValue = theme.val()
     
-
-  }, [stateThemePage])
+        const nameButton = themeValue === true ? 'Tema Light':'Tema Dark'
+     
+          setStateThemePage ({ 
+            themePage: themeValue,
+            nameButtonChangeThemePage: nameButton
+          })
+      }) 
+     }
+     theme()
+   },[])
 
    function handleThemePage(){  
      if(stateThemePage?.themePage === false){
@@ -59,14 +53,14 @@ function NewRoom(){
       
       setStateThemePage({
         themePage: true,
-        nameButtonChangeThemePage: 'Thema Dark'
+        nameButtonChangeThemePage: 'Tema Light'
       })
      }else{ 
       database.ref('rooms').child(`pageTheme`).set(false)
       
       setStateThemePage({
         themePage: false,
-        nameButtonChangeThemePage: 'Thema Padrão'
+        nameButtonChangeThemePage: 'Tema Dark'
       })
      }
         
@@ -77,6 +71,7 @@ function NewRoom(){
 
  async function handleCreateRoom(event: FormEvent) {
    event.preventDefault()
+
 
    if(newRoom.trim() === ''){//retira os espaços tanto da direita quanto da esquerda
     return

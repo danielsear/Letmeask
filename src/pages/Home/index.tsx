@@ -2,6 +2,7 @@ import './styles.css'
 
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+
 import { FormEvent, useEffect, useState } from 'react'
 
 import illustrationImg from '../../assets/images/illustration.svg'
@@ -11,6 +12,8 @@ import googleIcon from '../../assets/images/google-icon.svg'
 import Button from '../../components/Button'
 
 import { database } from '../../services/firebase'
+
+
 
 
 export type ThemePage = {
@@ -23,57 +26,50 @@ function Home(){
   const navigate = useNavigate()
   const {user,signInWithGoogle} = useAuth()
   const [roomCode,setRoomCode] = useState('') 
+ 
+  
   const [stateThemePage, setStateThemePage] = useState<ThemePage>()
-  
-  
+ 
 
-  useEffect(() => {
-    //verificando o tema inicial e retornando o id
-    if(!stateThemePage ){
-      database
+ 
+ useEffect(()=>{
+  async function theme() {
+    await database
     .ref('rooms')
     .child('pageTheme')
     .once('value', theme => {
       const themeValue = theme.val()
-      
-
-      if (themeValue === false) {
-
-        setStateThemePage({
-            themePage: false,
-            nameButtonChangeThemePage: 'Tema Dark'
-          })
-        } else {
-
-          setStateThemePage({
-            themePage: true,   
-            nameButtonChangeThemePage: 'Tema Padrão'
-          })
-        }
-    })
-    }
-    
-
-  }, [stateThemePage])
-
+  
+      const nameButton = themeValue === true ? 'Tema Light':'Tema Dark'
+   
+        setStateThemePage ({ 
+          themePage: themeValue,
+          nameButtonChangeThemePage: nameButton
+        })
+    }) 
+   }
+   theme()
+ },[])
+  
    function handleThemePage(){  
      if(stateThemePage?.themePage === false){
       database.ref('rooms').child(`pageTheme`).set(true)
       
       setStateThemePage({
         themePage: true,
-        nameButtonChangeThemePage: 'Thema Dark'
+        nameButtonChangeThemePage: 'Thema Light'
       })
      }else{ 
       database.ref('rooms').child(`pageTheme`).set(false)
       
       setStateThemePage({
         themePage: false,
-        nameButtonChangeThemePage: 'Thema Padrão'
+        nameButtonChangeThemePage: 'Thema Dark'
       })
      }
         
     }
+
 
 
 
